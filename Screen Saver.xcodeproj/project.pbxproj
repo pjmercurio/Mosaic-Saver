@@ -7,19 +7,54 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		570FC22625840A000025D51D /* Screen_SaverView.h in Headers */ = {isa = PBXBuildFile; fileRef = 570FC22525840A000025D51D /* Screen_SaverView.h */; };
-		570FC22825840A000025D51D /* Screen_SaverView.m in Sources */ = {isa = PBXBuildFile; fileRef = 570FC22725840A000025D51D /* Screen_SaverView.m */; };
+		570FC23125840A310025D51D /* MainSaverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570FC23025840A310025D51D /* MainSaverView.swift */; };
+		570FC23925840BBC0025D51D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570FC23825840BBC0025D51D /* AppDelegate.swift */; };
+		570FC23B25840BBC0025D51D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570FC23A25840BBC0025D51D /* ViewController.swift */; };
+		570FC23D25840BBF0025D51D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 570FC23C25840BBF0025D51D /* Assets.xcassets */; };
+		570FC24025840BBF0025D51D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 570FC23E25840BBF0025D51D /* Main.storyboard */; };
+		570FC24625840C4A0025D51D /* MainSaverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570FC23025840A310025D51D /* MainSaverView.swift */; };
+		57363B4325B9E635000822AC /* ConfigureSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 57363B4225B9E635000822AC /* ConfigureSheet.xib */; };
+		57363B4A25B9E956000822AC /* ConfigureSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57363B4925B9E956000822AC /* ConfigureSheetController.swift */; };
+		57363B5525BA0AF8000822AC /* DefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57363B5425BA0AF8000822AC /* DefaultsManager.swift */; };
+		57363B6225BA4951000822AC /* DefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57363B5425BA0AF8000822AC /* DefaultsManager.swift */; };
+		57363B6525BA4954000822AC /* ConfigureSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57363B4925B9E956000822AC /* ConfigureSheetController.swift */; };
+		57363B6825BA4959000822AC /* ConfigureSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 57363B4225B9E635000822AC /* ConfigureSheet.xib */; };
+		574B2948258427EE00FC4EB4 /* ImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574B2947258427EE00FC4EB4 /* ImageProcessor.swift */; };
+		574B294B25842E3E00FC4EB4 /* ImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574B2947258427EE00FC4EB4 /* ImageProcessor.swift */; };
+		574B294F2585D8A600FC4EB4 /* ImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574B294E2585D8A600FC4EB4 /* ImageExtensions.swift */; };
+		574B29522585D8EA00FC4EB4 /* ImageExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574B294E2585D8A600FC4EB4 /* ImageExtensions.swift */; };
+		574FFB712586FE82004D3F0A /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574FFB702586FE82004D3F0A /* ColorExtensions.swift */; };
+		574FFB722586FE82004D3F0A /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574FFB702586FE82004D3F0A /* ColorExtensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		570FC22225840A000025D51D /* Screen Saver.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Screen Saver.saver"; sourceTree = BUILT_PRODUCTS_DIR; };
-		570FC22525840A000025D51D /* Screen_SaverView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Screen_SaverView.h; sourceTree = "<group>"; };
-		570FC22725840A000025D51D /* Screen_SaverView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Screen_SaverView.m; sourceTree = "<group>"; };
 		570FC22925840A000025D51D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		570FC23025840A310025D51D /* MainSaverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSaverView.swift; sourceTree = "<group>"; };
+		570FC23625840BBC0025D51D /* Testing Window.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Testing Window.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		570FC23825840BBC0025D51D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		570FC23A25840BBC0025D51D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		570FC23C25840BBF0025D51D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		570FC23F25840BBF0025D51D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		570FC24125840BBF0025D51D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		570FC24225840BBF0025D51D /* Testing_Window.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Testing_Window.entitlements; sourceTree = "<group>"; };
+		57363B4225B9E635000822AC /* ConfigureSheet.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ConfigureSheet.xib; sourceTree = "<group>"; };
+		57363B4925B9E956000822AC /* ConfigureSheetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigureSheetController.swift; sourceTree = "<group>"; };
+		57363B5425BA0AF8000822AC /* DefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultsManager.swift; sourceTree = "<group>"; };
+		574B2947258427EE00FC4EB4 /* ImageProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProcessor.swift; sourceTree = "<group>"; };
+		574B294E2585D8A600FC4EB4 /* ImageExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExtensions.swift; sourceTree = "<group>"; };
+		574FFB702586FE82004D3F0A /* ColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtensions.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		570FC21F25840A000025D51D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		570FC23325840BBC0025D51D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -33,6 +68,7 @@
 			isa = PBXGroup;
 			children = (
 				570FC22425840A000025D51D /* Screen Saver */,
+				570FC23725840BBC0025D51D /* Testing Window */,
 				570FC22325840A000025D51D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,6 +77,7 @@
 			isa = PBXGroup;
 			children = (
 				570FC22225840A000025D51D /* Screen Saver.saver */,
+				570FC23625840BBC0025D51D /* Testing Window.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,11 +85,29 @@
 		570FC22425840A000025D51D /* Screen Saver */ = {
 			isa = PBXGroup;
 			children = (
-				570FC22525840A000025D51D /* Screen_SaverView.h */,
-				570FC22725840A000025D51D /* Screen_SaverView.m */,
+				570FC23025840A310025D51D /* MainSaverView.swift */,
+				574B2947258427EE00FC4EB4 /* ImageProcessor.swift */,
+				574B294E2585D8A600FC4EB4 /* ImageExtensions.swift */,
+				574FFB702586FE82004D3F0A /* ColorExtensions.swift */,
+				57363B4225B9E635000822AC /* ConfigureSheet.xib */,
+				57363B4925B9E956000822AC /* ConfigureSheetController.swift */,
+				57363B5425BA0AF8000822AC /* DefaultsManager.swift */,
 				570FC22925840A000025D51D /* Info.plist */,
 			);
 			path = "Screen Saver";
+			sourceTree = "<group>";
+		};
+		570FC23725840BBC0025D51D /* Testing Window */ = {
+			isa = PBXGroup;
+			children = (
+				570FC23825840BBC0025D51D /* AppDelegate.swift */,
+				570FC23A25840BBC0025D51D /* ViewController.swift */,
+				570FC23C25840BBF0025D51D /* Assets.xcassets */,
+				570FC23E25840BBF0025D51D /* Main.storyboard */,
+				570FC24125840BBF0025D51D /* Info.plist */,
+				570FC24225840BBF0025D51D /* Testing_Window.entitlements */,
+			);
+			path = "Testing Window";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -62,7 +117,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				570FC22625840A000025D51D /* Screen_SaverView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,16 +141,38 @@
 			productReference = 570FC22225840A000025D51D /* Screen Saver.saver */;
 			productType = "com.apple.product-type.bundle";
 		};
+		570FC23525840BBC0025D51D /* Testing Window */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 570FC24325840BBF0025D51D /* Build configuration list for PBXNativeTarget "Testing Window" */;
+			buildPhases = (
+				570FC23225840BBC0025D51D /* Sources */,
+				570FC23325840BBC0025D51D /* Frameworks */,
+				570FC23425840BBC0025D51D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Testing Window";
+			productName = "Testing Window";
+			productReference = 570FC23625840BBC0025D51D /* Testing Window.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		570FC21925840A000025D51D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastSwiftUpdateCheck = 1160;
 				LastUpgradeCheck = 1160;
 				ORGANIZATIONNAME = "Paul Mercurio";
 				TargetAttributes = {
 					570FC22125840A000025D51D = {
+						CreatedOnToolsVersion = 11.6;
+						LastSwiftMigration = 1160;
+					};
+					570FC23525840BBC0025D51D = {
 						CreatedOnToolsVersion = 11.6;
 					};
 				};
@@ -115,6 +191,7 @@
 			projectRoot = "";
 			targets = (
 				570FC22125840A000025D51D /* Screen Saver */,
+				570FC23525840BBC0025D51D /* Testing Window */,
 			);
 		};
 /* End PBXProject section */
@@ -124,6 +201,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				57363B4325B9E635000822AC /* ConfigureSheet.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		570FC23425840BBC0025D51D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				570FC23D25840BBF0025D51D /* Assets.xcassets in Resources */,
+				570FC24025840BBF0025D51D /* Main.storyboard in Resources */,
+				57363B6825BA4959000822AC /* ConfigureSheet.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -134,11 +222,42 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				570FC22825840A000025D51D /* Screen_SaverView.m in Sources */,
+				574B294F2585D8A600FC4EB4 /* ImageExtensions.swift in Sources */,
+				57363B5525BA0AF8000822AC /* DefaultsManager.swift in Sources */,
+				574B2948258427EE00FC4EB4 /* ImageProcessor.swift in Sources */,
+				570FC23125840A310025D51D /* MainSaverView.swift in Sources */,
+				574FFB712586FE82004D3F0A /* ColorExtensions.swift in Sources */,
+				57363B4A25B9E956000822AC /* ConfigureSheetController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		570FC23225840BBC0025D51D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				57363B6525BA4954000822AC /* ConfigureSheetController.swift in Sources */,
+				574B29522585D8EA00FC4EB4 /* ImageExtensions.swift in Sources */,
+				570FC24625840C4A0025D51D /* MainSaverView.swift in Sources */,
+				570FC23B25840BBC0025D51D /* ViewController.swift in Sources */,
+				57363B6225BA4951000822AC /* DefaultsManager.swift in Sources */,
+				574B294B25842E3E00FC4EB4 /* ImageProcessor.swift in Sources */,
+				570FC23925840BBC0025D51D /* AppDelegate.swift in Sources */,
+				574FFB722586FE82004D3F0A /* ColorExtensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		570FC23E25840BBF0025D51D /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				570FC23F25840BBF0025D51D /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		570FC22A25840A000025D51D /* Debug */ = {
@@ -253,13 +372,24 @@
 		570FC22D25840A000025D51D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 5EHV6367QQ;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "Screen Saver/Info.plist";
 				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.paulmercurio.Screen-Saver";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Screen Saver/Screen Saver-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
 				WRAPPER_EXTENSION = saver;
 			};
 			name = Debug;
@@ -267,14 +397,70 @@
 		570FC22E25840A000025D51D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = 5EHV6367QQ;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = "Screen Saver/Info.plist";
 				INSTALL_PATH = "$(HOME)/Library/Screen Savers";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.paulmercurio.Screen-Saver";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Screen Saver/Screen Saver-Bridging-Header.h";
+				SWIFT_VERSION = 5.0;
 				WRAPPER_EXTENSION = saver;
+			};
+			name = Release;
+		};
+		570FC24425840BBF0025D51D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Testing Window/Testing_Window.entitlements";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = "Testing Window/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.paulmercurio.Testing-Window";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		570FC24525840BBF0025D51D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "Testing Window/Testing_Window.entitlements";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = "Testing Window/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.paulmercurio.Testing-Window";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -295,6 +481,15 @@
 			buildConfigurations = (
 				570FC22D25840A000025D51D /* Debug */,
 				570FC22E25840A000025D51D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		570FC24325840BBF0025D51D /* Build configuration list for PBXNativeTarget "Testing Window" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				570FC24425840BBF0025D51D /* Debug */,
+				570FC24525840BBF0025D51D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
