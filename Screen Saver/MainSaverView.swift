@@ -23,6 +23,7 @@ class MainSaverView: ScreenSaverView {
     var colorToThumbnailMap = [NSColor: URL]()
     var mainImageURLs = [URL]()
     var imageCache = [URL: NSImage]()
+    var currentWorkItem: DispatchWorkItem?
 
     // MARK: - Initialization
 
@@ -67,11 +68,30 @@ class MainSaverView: ScreenSaverView {
         background.fill()
     }
     
+    // Refresh preview window after prefs have been updated
     func refreshPreview() {
-        setNeedsDisplay(bounds)
+        colorToThumbnailMap.removeAll()
+        mainImageURLs.removeAll()
+        imageCache.removeAll()
+        setNeedsDisplay(self.bounds)
         subviews.removeAll()
         addProgressIndicator()
         imageProcessor?.indexImages()
+    }
+    
+    // Show state when current source folder has no images
+    func renderEmptyState(withError error: Error? = nil) {
+        indicator.isHidden = true
+        let label = NSTextField(labelWithString: "No pictures found. Set location in preferences.")
+        label.font = NSFont(name: "Helvetica Neue Thin", size: 24.0)
+        label.textColor = .white
+        label.alignment = .center
+        label.stringValue = error?.localizedDescription ?? "No pictures found. Set location in preferences."
+        addSubview(label)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+            [NSLayoutConstraint(item: label, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0),
+             NSLayoutConstraint(item: label, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0)])
     }
 
     func renderColorGrid(_ colorToThumbnailMap: [NSColor: URL], _ mainImageURLs: [URL]? = nil) {
@@ -83,22 +103,7 @@ class MainSaverView: ScreenSaverView {
         drawImagePixels(in: mainImageView)
     }
 
-    func setupMainImageView() -> NSImageView? {
-        guard let mainImageURL = mainImageURLs.randomElement() else { return nil }
-//        let mainImageURL = URL(fileURLWithPath: "/Users/paulmercurio/Pictures/Mosaic/bernie.jpg")
-//        let imageName = mainImageURL.lastPathComponent
-//        let cacheImageURL = URL(fileURLWithPath: "/Users/paulmercurio/Library/Caches/MosaicSaver/imageDB/\(imageName)")
-//        print("Image Name: \(mainImageURL.lastPathComponent)")
-//        print("CACHE IIMAGE URL: \(cacheImageURL)")
-        let mainImage = NSImage(byReferencing: mainImageURL)
-        let mainImageView = NSImageView(frame: frame)
-        mainImageView.wantsLayer = true
-        mainImageView.image = mainImage
-        mainImageView.imageScaling = .scaleProportionallyUpOrDown
-        mainImageView.layer?.backgroundColor = defaultsManager.backgroundColor.cgColor
-        return mainImageView
-    }
-
+    // Draw all of the mini blocks for the original image
     func drawImagePixels(in mainImageView: NSImageView) {
         guard let mainImage = mainImageView.image else { return }
         let colorValues: [NSColor] = Array(colorToThumbnailMap.keys)
@@ -111,31 +116,31 @@ class MainSaverView: ScreenSaverView {
         let horizontalRatio = mainImage.size.width / mainImageRect.width
         let verticalRatio = mainImage.size.height / mainImageRect.height
         
-        func innerLoop(_ x: Int, _ y: Int) {
-            let midpointX = (CGFloat(x * blockWidth) * horizontalRatio) + CGFloat(blockWidth / 2)
-            let midpointY = (CGFloat(y * blockHeight) * verticalRatio) + CGFloat(blockHeight / 2)
-            guard let blockColor = mainImage[Int(midpointX), Int(midpointY)] else { return }
-            let nearestColor = colorValues.reduce(colorValues.first!, { curr, next in
-                if next.difference(from: blockColor) >= curr.difference(from: blockColor) { return curr }
-                return next
-            })
-            guard let newImageURL = self.colorToThumbnailMap[nearestColor] else { return }
+        currentWorkItem = DispatchWorkItem {
+            func innerLoop(_ x: Int, _ y: Int) {
+                let midpointX = (CGFloat(x * blockWidth) * horizontalRatio) + CGFloat(blockWidth / 2)
+                let midpointY = (CGFloat(y * blockHeight) * verticalRatio) + CGFloat(blockHeight / 2)
+                guard let blockColor = mainImage[Int(midpointX), Int(midpointY)] else { return }
+                let nearestColor = colorValues.reduce(colorValues.first!, { curr, next in
+                    if next.difference(from: blockColor) >= curr.difference(from: blockColor) { return curr }
+                    return next
+                })
+                guard let newImageURL = self.colorToThumbnailMap[nearestColor] else { return }
 
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
-                let newImage = self.imageCache[newImageURL] ?? NSImage(byReferencing: newImageURL)
-                let xPos = x * blockWidth + Int(mainImageRect.origin.x)
-                let yPos = Int(self.frame.height) - (y * blockHeight) - Int(mainImageRect.origin.y) - blockHeight
-                let imageView = NSView(frame: NSRect(x: xPos, y: yPos, width: blockWidth, height: blockHeight))
-                imageView.wantsLayer = true
-                imageView.layer?.contents = newImage
-                imageView.layer?.contentsGravity = .resizeAspectFill
-                self.imageCache[newImageURL] = newImage
-                self.addSubview(imageView)
+                DispatchQueue.main.async { [weak self] in
+                    guard let self = self else { return }
+                    let newImage = self.imageCache[newImageURL] ?? NSImage(byReferencing: newImageURL)
+                    let xPos = x * blockWidth + Int(mainImageRect.origin.x)
+                    let yPos = Int(self.frame.height) - (y * blockHeight) - Int(mainImageRect.origin.y) - blockHeight
+                    let imageView = NSView(frame: NSRect(x: xPos, y: yPos, width: blockWidth, height: blockHeight))
+                    imageView.wantsLayer = true
+                    imageView.layer?.contents = newImage
+                    imageView.layer?.contentsGravity = .resizeAspectFill
+                    self.imageCache[newImageURL] = newImage
+                    self.addSubview(imageView)
+                }
             }
-        }
 
-        DispatchQueue.global(qos: .background).async {
             let xArray = Array(0...numHorizontalBlocks)
             let yArray = Array(0...numVerticalBlocks)
             switch buildStyle {
@@ -161,8 +166,22 @@ class MainSaverView: ScreenSaverView {
                 self?.showMainImage(mainImageView)
             }
         }
+        DispatchQueue.global(qos: .background).async(execute: currentWorkItem!)
     }
 
+    // Prepare main image view for later display
+    func setupMainImageView() -> NSImageView? {
+        guard let mainImageURL = mainImageURLs.randomElement() else { return nil }
+        let mainImage = NSImage(byReferencing: mainImageURL).resizedImageTo(newSize: bounds.size * 2)
+        let mainImageView = NSImageView(frame: frame)
+        mainImageView.wantsLayer = true
+        mainImageView.image = mainImage
+        mainImageView.imageScaling = .scaleProportionallyUpOrDown
+        mainImageView.layer?.backgroundColor = defaultsManager.backgroundColor.cgColor
+        return mainImageView
+    }
+
+    // Display original image after all blocks are displayed
     func showMainImage(_ mainImageView: NSImageView) {
         mainImageView.alphaValue = 0
         addSubview(mainImageView)

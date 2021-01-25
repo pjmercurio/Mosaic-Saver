@@ -19,12 +19,6 @@ extension NSImage {
         return NSColor(red: CGFloat(bitmap[0]) / 255, green: CGFloat(bitmap[1]) / 255, blue: CGFloat(bitmap[2]) / 255, alpha: CGFloat(bitmap[3]) / 255)
     }
 
-    var randomPixelColor: NSColor? {
-        let x = Int.random(in: 0...Int(self.size.width))
-        let y = Int.random(in: 0...Int(self.size.height))
-        return self[x, y]
-    }
-
     var aspect: CGFloat {
         return size.width / size.height
     }
@@ -52,6 +46,21 @@ extension NSImage {
 
         return NSColor(red: r, green: g, blue: b, alpha: 1)
     }
+    
+    func resizedImageTo(newSize: NSSize) -> NSImage? {
+            guard self.isValid else { return nil }
+            let conformedSize = NSSize(width: newSize.width, height: newSize.width / self.aspect)
+
+            let representation = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: Int(conformedSize.width), pixelsHigh: Int(conformedSize.height), bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false, colorSpaceName: .calibratedRGB, bytesPerRow: 0, bitsPerPixel: 0)
+            representation?.size = conformedSize
+            NSGraphicsContext.saveGraphicsState()
+            NSGraphicsContext.current = NSGraphicsContext(bitmapImageRep: representation!)
+            self.draw(in: NSRect(x: 0, y: 0, width: conformedSize.width, height: conformedSize.height), from: NSZeroRect, operation: .copy, fraction: 1.0)
+            NSGraphicsContext.restoreGraphicsState()
+            let newImage = NSImage(size: conformedSize)
+            newImage.addRepresentation(representation!)
+            return newImage
+        }
 
 }
 
@@ -59,6 +68,14 @@ extension NSRect {
 
     var aspect: CGFloat {
         return size.width / size.height
+    }
+
+}
+
+extension NSSize {
+    
+    static func *(_ rhs: NSSize,  _ lhs: CGFloat) -> NSSize {
+        return NSSize(width: rhs.width * lhs, height: rhs.height * lhs)
     }
 
 }

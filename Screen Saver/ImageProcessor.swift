@@ -20,39 +20,27 @@ struct ImageProcessor {
         indexImages()
     }
     
-    func reset() {
-        
-    }
-    
     func indexImages() {
-        guard let wallpaperURL = defaultsManager.photosLocation, fileManager.fileExists(atPath: wallpaperURL) else { return renderEmptyState() }
+        guard let wallpaperURL = defaultsManager.photosLocation, fileManager.fileExists(atPath: wallpaperURL) else {
+            mainView?.renderEmptyState()
+            return
+        }
         do {
             let completeUrl = URL(fileURLWithPath: wallpaperURL, isDirectory: true)
             let items = try fileManager.contentsOfDirectory(atPath: completeUrl.path)
             let imageUrls = items.filterImagesOnly().compactMap({ URL(fileURLWithPath: wallpaperURL + $0) })
             getAverageValues(imageUrls)
         } catch let error {
-            renderEmptyState(withError: error)
+            mainView?.renderEmptyState(withError: error)
         }
     }
-    
-    func renderEmptyState(withError error: Error? = nil) {
-        mainView?.indicator.isHidden = true
-        let label = NSTextField(labelWithString: "No pictures found. Set location in preferences.")
-        label.font = NSFont(name: "Helvetica Neue Thin", size: 24.0)
-        label.usesSingleLineMode = false
-        label.textColor = .white
-        label.alignment = .center
-        label.stringValue = error?.localizedDescription ?? "No pictures found. Set location in preferences."
-        mainView?.addSubview(label)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate(
-            [NSLayoutConstraint(item: label, attribute: .centerX, relatedBy: .equal, toItem: mainView, attribute: .centerX, multiplier: 1, constant: 0),
-             NSLayoutConstraint(item: label, attribute: .centerY, relatedBy: .equal, toItem: mainView, attribute: .centerY, multiplier: 1, constant: 0)])
-    }
 
+    // Cache the average color value for every source image
     func getAverageValues(_ imageURLS: [URL]) {
-        guard imageURLS.count > 0 else { return renderEmptyState() }
+        guard imageURLS.count > 0 else {
+            mainView?.renderEmptyState()
+            return
+        }
         DispatchQueue.global(qos: .background).async {
             var colorToThumbnailMap = [NSColor: URL]()
             for (index, imageURL) in imageURLS.enumerated() {
@@ -69,6 +57,7 @@ struct ImageProcessor {
         }
     }
 
+    // Cache every image as tiny thumbnails for later use as pixels
     func resizeToThumbnail(_ imageUrl: URL) -> URL? {
         do {
             let cachesURL = try fileManager.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
@@ -80,6 +69,7 @@ struct ImageProcessor {
         } catch { return nil }
     }
 
+    // Write a resized thumbnail image to disk if it doesn't already exist
     func writeResizedImage(at url: URL, to destinationURL: URL) -> URL? {
         let imageDestinationURL = destinationURL.appendingPathComponent(url.lastPathComponent)
         guard !fileManager.fileExists(atPath: imageDestinationURL.path) else { return imageDestinationURL }
@@ -103,29 +93,5 @@ struct ImageProcessor {
             return imageDestinationURL
         } catch { return nil }
     }
-
-//    func resizeMainImage(at url: URL, to destinationURL: URL, _ size: NSSize) -> URL? {
-//        let imageDestinationURL = destinationURL.appendingPathComponent(url.lastPathComponent)
-//        guard !fileManager.fileExists(atPath: imageDestinationURL.path) else { return imageDestinationURL }
-//        let options: [CFString: Any] = [
-//            kCGImageSourceCreateThumbnailFromImageIfAbsent: true,
-//            kCGImageSourceCreateThumbnailWithTransform: true,
-//            kCGImageSourceShouldCacheImmediately: true,
-//            kCGImageSourceThumbnailMaxPixelSize: size.width
-//        ]
-//
-//        guard let imageSource = CGImageSourceCreateWithURL(url as NSURL, nil),
-//              let image = CGImageSourceCreateThumbnailAtIndex(imageSource, 0, nil)
-//        else { return nil }
-//
-//        let resizedImage =  NSImage(cgImage: image, size: size)
-//        guard let tiffData = resizedImage.tiffRepresentation,
-//              let data = NSBitmapImageRep(data: tiffData),
-//              let imgData = data.representation(using: .jpeg, properties: [.compressionFactor : NSNumber(floatLiteral: 0.5)]) else { return nil }
-//        do {
-//            try imgData.write(to: imageDestinationURL)
-//            return imageDestinationURL
-//        } catch { return nil }
-//    }
 
 }
