@@ -16,7 +16,7 @@ class ConfigureSheetController: NSObject {
     @IBOutlet var window: NSWindow!
     @IBOutlet weak var colorPicker: NSColorWell!
     @IBOutlet weak var blockSizeSlider: NSSlider!
-    @IBOutlet weak var holdDurationField: NSTextField!
+    @IBOutlet weak var buildSpeedSlider: NSSlider!
     @IBOutlet weak var buildStyleButton: NSPopUpButton!
     @IBOutlet weak var photoLocationLabel: NSButton!
     
@@ -41,12 +41,12 @@ class ConfigureSheetController: NSObject {
     @IBAction func save(_ sender: NSButton) {
         let color = colorPicker.color
         let blockSize = blockSizeSlider.integerValue
-        let holdDuration = holdDurationField.doubleValue
+        let buildSpeed = buildSpeedSlider.doubleValue
         let buildStyle = buildStyleButton.selectedItem?.title ?? "Scan Vertical"
         let photoLocation = photoLocationLabel.title
         defaultsManager.backgroundColor = color
         defaultsManager.blockSize = blockSize
-        defaultsManager.holdDuration = holdDuration
+        defaultsManager.buildSpeed = buildSpeed
         defaultsManager.buildStyle = buildStyle
         defaultsManager.photosLocation = photoLocation
         refreshPreview?()
@@ -78,12 +78,12 @@ class ConfigureSheetController: NSObject {
     func getDefaults() {
         let backgroundColor = defaultsManager.backgroundColor
         let blockSize = defaultsManager.blockSize
-        let holdDuration = defaultsManager.holdDuration
+        let buildSpeed = defaultsManager.buildSpeed
         let buildStyle = defaultsManager.buildStyle
         let photosLocation = defaultsManager.photosLocation
         colorPicker.color = backgroundColor
         blockSizeSlider.integerValue = blockSize
-        holdDurationField.doubleValue = holdDuration
+        buildSpeedSlider.doubleValue = buildSpeed
         buildStyleButton.selectItem(withTitle: buildStyle)
         photoLocationLabel.attributedTitle = NSMutableAttributedString(string: photosLocation ?? "Not set", attributes: [NSAttributedString.Key.foregroundColor: NSColor.red])
     }

@@ -6,12 +6,12 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="ConfigureSheetController" customModule="Screen_Saver" customModuleProvider="target">
+        <customObject id="-2" userLabel="File's Owner" customClass="ConfigureSheetController" customModule="Mosaic_Saver" customModuleProvider="target">
             <connections>
                 <outlet property="blockSizeSlider" destination="dMm-eL-UnR" id="5eJ-yh-vXV"/>
+                <outlet property="buildSpeedSlider" destination="7R5-VH-FQS" id="kJR-Ji-peE"/>
                 <outlet property="buildStyleButton" destination="4IF-rn-8pG" id="FJr-Sv-AUc"/>
                 <outlet property="colorPicker" destination="2rp-BQ-N5t" id="I3W-yW-GrZ"/>
-                <outlet property="holdDurationField" destination="UhG-XV-9SK" id="Lz7-xb-Xd3"/>
                 <outlet property="photoLocationLabel" destination="Tzf-TM-Zg3" id="a6t-1v-P49"/>
                 <outlet property="window" destination="QvC-M9-y7g" id="80f-fA-4rL"/>
             </connections>
@@ -90,7 +90,7 @@ DQ
                             <constraint firstAttribute="height" constant="22" id="N4J-1H-ePB"/>
                             <constraint firstAttribute="width" constant="138" id="sav-IS-GyZ"/>
                         </constraints>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Image Hold Time (s):" id="fnj-Qr-Xu7">
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Build Speed:" id="fnj-Qr-Xu7">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -148,19 +148,6 @@ DQ
                         </constraints>
                         <color key="color" red="0.69123241400000002" green="0.87853812170000001" blue="0.30508141579999998" alpha="1" colorSpace="calibratedRGB"/>
                     </colorWell>
-                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UhG-XV-9SK">
-                        <rect key="frame" x="190" y="186" width="60" height="21"/>
-                        <constraints>
-                            <constraint firstAttribute="width" constant="60" id="FyR-ns-wny"/>
-                            <constraint firstAttribute="height" constant="21" id="IFL-V0-ODv"/>
-                        </constraints>
-                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="right" title="5" drawsBackground="YES" id="m6H-RZ-XpR">
-                            <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="eJx-pG-AgG"/>
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
                     <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4IF-rn-8pG">
                         <rect key="frame" x="118" y="139" width="135" height="25"/>
                         <constraints>
@@ -193,17 +180,26 @@ DQ
                             <action selector="revealInFinder:" target="-2" id="sM1-xY-vUy"/>
                         </connections>
                     </button>
+                    <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7R5-VH-FQS">
+                        <rect key="frame" x="118" y="188" width="134" height="19"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="130" id="0fD-l7-R5H"/>
+                            <constraint firstAttribute="height" constant="15" id="BUv-Af-1BG"/>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="15" id="P2f-3j-iTT"/>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="130" id="TGk-a8-36u"/>
+                        </constraints>
+                        <sliderCell key="cell" state="on" alignment="left" maxValue="0.01" doubleValue="0.0050000000000000001" tickMarkPosition="above" allowsTickMarkValuesOnly="YES" sliderType="linear" id="LYb-yg-hSi"/>
+                    </slider>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="trailing" secondItem="4IF-rn-8pG" secondAttribute="trailing" constant="20" symbolic="YES" id="19B-eh-yB7"/>
-                    <constraint firstAttribute="trailing" secondItem="UhG-XV-9SK" secondAttribute="trailing" constant="20" symbolic="YES" id="1cw-L7-CfK"/>
+                    <constraint firstAttribute="trailing" secondItem="7R5-VH-FQS" secondAttribute="trailing" constant="20" symbolic="YES" id="5ZP-al-gGG"/>
                     <constraint firstAttribute="bottom" secondItem="iuB-Se-3f4" secondAttribute="bottom" constant="20" symbolic="YES" id="AZO-Xz-XVY"/>
                     <constraint firstAttribute="trailing" secondItem="RL0-oI-Xzu" secondAttribute="trailing" constant="20" symbolic="YES" id="D8I-FR-DJW"/>
                     <constraint firstItem="XLL-OO-Wua" firstAttribute="top" secondItem="naA-5b-JKJ" secondAttribute="bottom" constant="22" id="E4H-xL-AEG"/>
                     <constraint firstAttribute="trailing" secondItem="dMm-eL-UnR" secondAttribute="trailing" constant="20" symbolic="YES" id="FiK-AB-XqM"/>
                     <constraint firstAttribute="trailing" secondItem="2rp-BQ-N5t" secondAttribute="trailing" constant="20" symbolic="YES" id="GkF-M2-Zuu"/>
                     <constraint firstItem="2rp-BQ-N5t" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="16" id="MLW-QR-m3j"/>
-                    <constraint firstItem="UhG-XV-9SK" firstAttribute="top" secondItem="dMm-eL-UnR" secondAttribute="bottom" constant="26" id="Mtb-4v-lmq"/>
                     <constraint firstAttribute="trailing" secondItem="jTy-u9-8vH" secondAttribute="trailing" constant="20" symbolic="YES" id="R1t-Dm-ycK"/>
                     <constraint firstItem="MlI-sv-Llv" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="16" id="RfI-r7-pf6"/>
                     <constraint firstItem="MlI-sv-Llv" firstAttribute="top" secondItem="XLL-OO-Wua" secondAttribute="bottom" constant="22" id="Su7-NM-PqY"/>
@@ -221,6 +217,7 @@ DQ
                     <constraint firstItem="naA-5b-JKJ" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="16" id="nuB-Uo-NQU"/>
                     <constraint firstItem="s5I-6q-sxE" firstAttribute="leading" secondItem="EiT-Mj-1SZ" secondAttribute="leading" constant="16" id="srQ-EK-bXo"/>
                     <constraint firstItem="Tzf-TM-Zg3" firstAttribute="top" secondItem="s5I-6q-sxE" secondAttribute="bottom" id="v2z-9X-cMv"/>
+                    <constraint firstItem="7R5-VH-FQS" firstAttribute="top" secondItem="dMm-eL-UnR" secondAttribute="bottom" constant="28" id="vez-8G-mEd"/>
                 </constraints>
             </view>
             <point key="canvasLocation" x="242" y="169.5"/>

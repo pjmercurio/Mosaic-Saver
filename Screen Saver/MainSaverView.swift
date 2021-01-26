@@ -22,8 +22,8 @@ class MainSaverView: ScreenSaverView {
     let indicator = NSProgressIndicator(frame: NSRect(x: 0, y: 0, width: 100, height: 20))
     var colorToThumbnailMap = [NSColor: URL]()
     var mainImageURLs = [URL]()
+    var mainImageView = NSImageView()
     var imageCache = [URL: NSImage]()
-    var currentWorkItem: DispatchWorkItem?
 
     // MARK: - Initialization
 
@@ -99,12 +99,12 @@ class MainSaverView: ScreenSaverView {
         self.mainImageURLs = mainImageURLs ?? self.mainImageURLs
         indicator.isHidden = true
 
-        guard let mainImageView = setupMainImageView() else { return }
-        drawImagePixels(in: mainImageView)
+        setupMainImageView()
+        drawImagePixels()
     }
 
     // Draw all of the mini blocks for the original image
-    func drawImagePixels(in mainImageView: NSImageView) {
+    func drawImagePixels() {
         guard let mainImage = mainImageView.image else { return }
         let colorValues: [NSColor] = Array(colorToThumbnailMap.keys)
         let mainImageRect = mainImageView.imageRect
@@ -116,73 +116,82 @@ class MainSaverView: ScreenSaverView {
         let horizontalRatio = mainImage.size.width / mainImageRect.width
         let verticalRatio = mainImage.size.height / mainImageRect.height
         
-        currentWorkItem = DispatchWorkItem {
-            func innerLoop(_ x: Int, _ y: Int) {
-                let midpointX = (CGFloat(x * blockWidth) * horizontalRatio) + CGFloat(blockWidth / 2)
-                let midpointY = (CGFloat(y * blockHeight) * verticalRatio) + CGFloat(blockHeight / 2)
-                guard let blockColor = mainImage[Int(midpointX), Int(midpointY)] else { return }
-                let nearestColor = colorValues.reduce(colorValues.first!, { curr, next in
-                    if next.difference(from: blockColor) >= curr.difference(from: blockColor) { return curr }
-                    return next
-                })
-                guard let newImageURL = self.colorToThumbnailMap[nearestColor] else { return }
+        var blocks: [NSView] = []
+        func innerLoop(_ x: Int, _ y: Int) {
+            let midpointX = (CGFloat(x * blockWidth) * horizontalRatio) + CGFloat(blockWidth / 2)
+            let midpointY = (CGFloat(y * blockHeight) * verticalRatio) + CGFloat(blockHeight / 2)
+            guard let blockColor = mainImage[Int(midpointX), Int(midpointY)] else { return }
+            let nearestColor = colorValues.reduce(colorValues.first!, { curr, next in
+                if next.difference(from: blockColor) >= curr.difference(from: blockColor) { return curr }
+                return next
+            })
+            guard let newImageURL = self.colorToThumbnailMap[nearestColor] else { return }
 
-                DispatchQueue.main.async { [weak self] in
-                    guard let self = self else { return }
-                    let newImage = self.imageCache[newImageURL] ?? NSImage(byReferencing: newImageURL)
-                    let xPos = x * blockWidth + Int(mainImageRect.origin.x)
-                    let yPos = Int(self.frame.height) - (y * blockHeight) - Int(mainImageRect.origin.y) - blockHeight
-                    let imageView = NSView(frame: NSRect(x: xPos, y: yPos, width: blockWidth, height: blockHeight))
-                    imageView.wantsLayer = true
-                    imageView.layer?.contents = newImage
-                    imageView.layer?.contentsGravity = .resizeAspectFill
-                    self.imageCache[newImageURL] = newImage
-                    self.addSubview(imageView)
-                }
-            }
-
-            let xArray = Array(0...numHorizontalBlocks)
-            let yArray = Array(0...numVerticalBlocks)
-            switch buildStyle {
-            case "Scan Vertical":
-                for x in xArray {
-                    for y in yArray { innerLoop(x, y) }
-                }
-            case "Scan Horizontal":
-                for y in yArray {
-                    for x in xArray { innerLoop(x, y) }
-                }
-            default:
-                var wholeArray: [(Int, Int)] = []
-                for x in xArray {
-                    for y in yArray {
-                        wholeArray.append((x, y))
-                    }
-                }
-                wholeArray = wholeArray.shuffled()
-                for point in wholeArray { innerLoop(point.0, point.1) }
-            }
-            DispatchQueue.main.async { [weak self] in
-                self?.showMainImage(mainImageView)
-            }
+            let newImage = self.imageCache[newImageURL] ?? NSImage(byReferencing: newImageURL)
+            let xPos = x * blockWidth + Int(mainImageRect.origin.x)
+            let yPos = Int(self.frame.height) - (y * blockHeight) - Int(mainImageRect.origin.y) - blockHeight
+            let imageView = NSView(frame: NSRect(x: xPos, y: yPos, width: blockWidth, height: blockHeight))
+            imageView.wantsLayer = true
+            imageView.alphaValue = 0
+            imageView.layer?.contents = newImage
+            imageView.layer?.contentsGravity = .resizeAspectFill
+            imageCache[newImageURL] = newImage
+            addSubview(imageView)
+            blocks.append(imageView)
         }
-        DispatchQueue.global(qos: .background).async(execute: currentWorkItem!)
+
+        let xArray = Array(0...numHorizontalBlocks)
+        let yArray = Array(0...numVerticalBlocks)
+        switch buildStyle {
+        case "Scan Vertical":
+            for x in xArray {
+                for y in yArray { innerLoop(x, y) }
+            }
+        case "Scan Horizontal":
+            for y in yArray {
+                for x in xArray { innerLoop(x, y) }
+            }
+        default:
+            var wholeArray: [(Int, Int)] = []
+            for x in xArray {
+                for y in yArray {
+                    wholeArray.append((x, y))
+                }
+            }
+            wholeArray = wholeArray.shuffled()
+            for point in wholeArray { innerLoop(point.0, point.1) }
+        }
+        addBlockAtIndex(0, from: blocks)
+    }
+
+    func addBlockAtIndex(_ index: Int, from blocks: [NSView]) {
+        guard index < blocks.count else {
+            Timer.scheduledTimer(withTimeInterval: 5, repeats: false) { [weak self] _ in
+                self?.showMainImage()
+            }
+            return
+        }
+        let buildSpeed: TimeInterval = 0.01 - defaultsManager.buildSpeed
+        let block = blocks[index]
+        block.fadeIn()
+        Timer.scheduledTimer(withTimeInterval: buildSpeed, repeats: false) { [weak self] _ in
+            self?.addBlockAtIndex(index + 1, from: blocks)
+        }
     }
 
     // Prepare main image view for later display
-    func setupMainImageView() -> NSImageView? {
-        guard let mainImageURL = mainImageURLs.randomElement() else { return nil }
-        let mainImage = NSImage(byReferencing: mainImageURL).resizedImageTo(newSize: bounds.size * 2)
-        let mainImageView = NSImageView(frame: frame)
+    func setupMainImageView() {
+        guard let mainImageURL = mainImageURLs.randomElement() else { return }
+        let mainImage = NSImage(byReferencing: mainImageURL).resizedImageTo(newSize: bounds.size)
+        mainImageView.frame = frame
         mainImageView.wantsLayer = true
         mainImageView.image = mainImage
         mainImageView.imageScaling = .scaleProportionallyUpOrDown
         mainImageView.layer?.backgroundColor = defaultsManager.backgroundColor.cgColor
-        return mainImageView
     }
 
     // Display original image after all blocks are displayed
-    func showMainImage(_ mainImageView: NSImageView) {
+    func showMainImage() {
         mainImageView.alphaValue = 0
         addSubview(mainImageView)
 
@@ -201,9 +210,8 @@ class MainSaverView: ScreenSaverView {
         outAnimation.isRemovedOnCompletion = false
 
         mainImageView.fadeIn(duration: animationDuration) {
-            mainImageView.layer?.add(outAnimation, forKey: nil)
-            let holdDuration = self.defaultsManager.holdDuration
-            Timer.scheduledTimer(withTimeInterval: animationDuration + holdDuration, repeats: false) { _ in
+            self.mainImageView.layer?.add(outAnimation, forKey: nil)
+            Timer.scheduledTimer(withTimeInterval: animationDuration + 5, repeats: false) { _ in
                 self.subviews.removeAll()
                 self.renderColorGrid(self.colorToThumbnailMap)
             }

@@ -28,7 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		570FC22225840A000025D51D /* Screen Saver.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Screen Saver.saver"; sourceTree = BUILT_PRODUCTS_DIR; };
+		570FC22225840A000025D51D /* Mosaic Saver.saver */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Mosaic Saver.saver"; sourceTree = BUILT_PRODUCTS_DIR; };
 		570FC22925840A000025D51D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		570FC23025840A310025D51D /* MainSaverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSaverView.swift; sourceTree = "<group>"; };
 		570FC23625840BBC0025D51D /* Testing Window.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Testing Window.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -76,7 +76,7 @@
 		570FC22325840A000025D51D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				570FC22225840A000025D51D /* Screen Saver.saver */,
+				570FC22225840A000025D51D /* Mosaic Saver.saver */,
 				570FC23625840BBC0025D51D /* Testing Window.app */,
 			);
 			name = Products;
@@ -123,9 +123,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		570FC22125840A000025D51D /* Screen Saver */ = {
+		570FC22125840A000025D51D /* Mosaic Saver */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 570FC22C25840A000025D51D /* Build configuration list for PBXNativeTarget "Screen Saver" */;
+			buildConfigurationList = 570FC22C25840A000025D51D /* Build configuration list for PBXNativeTarget "Mosaic Saver" */;
 			buildPhases = (
 				570FC21D25840A000025D51D /* Headers */,
 				570FC21E25840A000025D51D /* Sources */,
@@ -136,9 +136,9 @@
 			);
 			dependencies = (
 			);
-			name = "Screen Saver";
+			name = "Mosaic Saver";
 			productName = "Screen Saver";
-			productReference = 570FC22225840A000025D51D /* Screen Saver.saver */;
+			productReference = 570FC22225840A000025D51D /* Mosaic Saver.saver */;
 			productType = "com.apple.product-type.bundle";
 		};
 		570FC23525840BBC0025D51D /* Testing Window */ = {
@@ -190,7 +190,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				570FC22125840A000025D51D /* Screen Saver */,
+				570FC22125840A000025D51D /* Mosaic Saver */,
 				570FC23525840BBC0025D51D /* Testing Window */,
 			);
 		};
@@ -384,7 +384,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.paulmercurio.Screen-Saver";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.paulmercurio.Mosaic-Saver";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Screen Saver/Screen Saver-Bridging-Header.h";
@@ -409,7 +409,7 @@
 					"@executable_path/../Frameworks",
 					"@loader_path/../Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.paulmercurio.Screen-Saver";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.paulmercurio.Mosaic-Saver";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Screen Saver/Screen Saver-Bridging-Header.h";
@@ -476,7 +476,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		570FC22C25840A000025D51D /* Build configuration list for PBXNativeTarget "Screen Saver" */ = {
+		570FC22C25840A000025D51D /* Build configuration list for PBXNativeTarget "Mosaic Saver" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				570FC22D25840A000025D51D /* Debug */,

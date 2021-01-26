@@ -13,7 +13,7 @@ struct DefaultsManager {
     enum PrefKey: String {
         case backgroundColor
         case blockSize
-        case holdDuration
+        case buildSpeed
         case buildStyle
         case photosLocation
     }
@@ -52,12 +52,12 @@ struct DefaultsManager {
         }
     }
 
-    var holdDuration: Double {
-        set(newDuration) {
-            setValue(newDuration, key: .holdDuration)
+    var buildSpeed: Double {
+        set(newSpeed) {
+            setValue(newSpeed, key: .buildSpeed)
         }
         get {
-            return getValue(forKey: .holdDuration) as? Double ?? 5
+            return getValue(forKey: .buildSpeed) as? Double ?? 0.5
         }
     }
     

@@ -80,7 +80,7 @@ extension NSSize {
 
 }
 
-extension NSImageView {
+extension NSView {
 
     public func fadeIn(duration: TimeInterval = 1, timingFunction: CAMediaTimingFunction = CAMediaTimingFunction(name: .easeInEaseOut),
                        completion: (() -> Void)? = nil) {
@@ -97,6 +97,10 @@ extension NSImageView {
         alphaValue = 1.0
         CATransaction.commit()
     }
+
+}
+
+extension NSImageView {
 
     var imageRect: NSRect {
         guard let image = self.image else { return .zero }
