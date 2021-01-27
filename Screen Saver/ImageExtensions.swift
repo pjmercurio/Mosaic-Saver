@@ -97,6 +97,43 @@ extension NSView {
         alphaValue = 1.0
         CATransaction.commit()
     }
+    
+    public func zoomIn(duration: TimeInterval = 1, timingFunction: CAMediaTimingFunction = CAMediaTimingFunction(name: .easeInEaseOut),
+                       completion: (() -> Void)? = nil) {
+        let animatePosition = CABasicAnimation(keyPath: "transform.scale")
+        animatePosition.duration = duration
+        animatePosition.timingFunction = timingFunction
+        animatePosition.fromValue = 0.2
+        animatePosition.toValue = 1.0
+        setAnchorPoint(anchorPoint: CGPoint(x: 0.5, y: 0.5))
+        CATransaction.begin()
+        layer?.add(animatePosition, forKey: "transformScale")
+        CATransaction.setCompletionBlock {
+            completion?()
+        }
+        CATransaction.commit()
+    }
+    
+    func setAnchorPoint(anchorPoint: CGPoint) {
+        guard let layer = self.layer else { return }
+
+        var newPoint = CGPoint(x: bounds.size.width * anchorPoint.x, y: bounds.size.height * anchorPoint.y)
+        var oldPoint = CGPoint(x: bounds.size.width * layer.anchorPoint.x, y: bounds.size.height * layer.anchorPoint.y)
+
+        newPoint = newPoint.applying(layer.affineTransform())
+        oldPoint = oldPoint.applying(layer.affineTransform())
+
+        var position = layer.position
+
+        position.x -= oldPoint.x
+        position.x += newPoint.x
+
+        position.y -= oldPoint.y
+        position.y += newPoint.y
+
+        layer.anchorPoint = anchorPoint
+        layer.position = position
+    }
 
 }
 

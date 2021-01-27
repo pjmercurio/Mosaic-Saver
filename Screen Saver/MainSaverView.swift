@@ -94,6 +94,7 @@ class MainSaverView: ScreenSaverView {
              NSLayoutConstraint(item: label, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0)])
     }
 
+    // Show the main state when images are indexed and ready
     func renderColorGrid(_ colorToThumbnailMap: [NSColor: URL], _ mainImageURLs: [URL]? = nil) {
         self.colorToThumbnailMap = colorToThumbnailMap
         self.mainImageURLs = mainImageURLs ?? self.mainImageURLs
@@ -173,6 +174,7 @@ class MainSaverView: ScreenSaverView {
         }
         let buildSpeed: TimeInterval = 0.01 - defaultsManager.buildSpeed
         let block = blocks[index]
+        block.zoomIn(duration: 1.5)
         block.fadeIn()
         Timer.scheduledTimer(withTimeInterval: buildSpeed, repeats: false) { [weak self] _ in
             self?.addBlockAtIndex(index + 1, from: blocks)
