@@ -1,6 +1,6 @@
 //
 //  ImageProcessor.swift
-//  Screen Saver
+//  Mosaic Saver
 //
 //  Created by Paul Mercurio on 12/11/20.
 //  Copyright © 2020 Paul Mercurio. All rights reserved.
@@ -10,19 +10,25 @@ import Foundation
 import AppKit
 import ImageIO
 
+protocol ImageProcessorDelegate: class {
+    func renderMainGrid(_ colorToThumbnailMap: [NSColor: URL], _ mainImageURLs: [URL]?)
+    func renderEmptyState(withError error: Error?)
+    func updateIndexingProgress(_ progress: Float)
+}
+
 struct ImageProcessor {
-    var mainView: MainSaverView?
+    weak var delegate: ImageProcessorDelegate?
     let fileManager = FileManager.default
     let defaultsManager = DefaultsManager.sharedInstance
 
-    init(_ mainView: MainSaverView) {
-        self.mainView = mainView
+    init(_ delegate: ImageProcessorDelegate) {
+        self.delegate = delegate
         indexImages()
     }
     
     func indexImages() {
         guard let wallpaperURL = defaultsManager.photosLocation, fileManager.fileExists(atPath: wallpaperURL) else {
-            mainView?.renderEmptyState()
+            delegate?.renderEmptyState(withError: nil)
             return
         }
         do {
@@ -31,14 +37,14 @@ struct ImageProcessor {
             let imageUrls = items.filterImagesOnly().compactMap({ URL(fileURLWithPath: wallpaperURL + $0) })
             getAverageValues(imageUrls)
         } catch let error {
-            mainView?.renderEmptyState(withError: error)
+            delegate?.renderEmptyState(withError: error)
         }
     }
 
     // Cache the average color value for every source image
     func getAverageValues(_ imageURLS: [URL]) {
         guard imageURLS.count > 0 else {
-            mainView?.renderEmptyState()
+            delegate?.renderEmptyState(withError: nil)
             return
         }
         DispatchQueue.global(qos: .background).async {
@@ -47,12 +53,12 @@ struct ImageProcessor {
                 guard let thumbnailURL = self.resizeToThumbnail(imageURL) else { continue }
                 let image = NSImage(contentsOf: thumbnailURL)
                 let progress = Float(index) / Float(imageURLS.count) * 100.0
-                self.mainView?.updateIndexingProgress(progress)
+                self.delegate?.updateIndexingProgress(progress)
                 guard let color = image?.averageColor else { continue }
                 colorToThumbnailMap[color] = thumbnailURL
             }
             DispatchQueue.main.async {
-                self.mainView?.renderColorGrid(colorToThumbnailMap, imageURLS)
+                self.delegate?.renderMainGrid(colorToThumbnailMap, imageURLS)
             }
         }
     }

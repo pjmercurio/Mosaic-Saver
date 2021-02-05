@@ -1,6 +1,6 @@
 ////
-////  Main.swift
-////  Screen Saver
+////  MainSaverView.swift
+////  Mosaic Saver
 ////
 ////  Created by Paul Mercurio on 12/11/20.
 ////  Copyright © 2020 Paul Mercurio. All rights reserved.
@@ -26,7 +26,6 @@ class MainSaverView: ScreenSaverView {
     var imageCache = [URL: NSImage]()
 
     // MARK: - Initialization
-
     override init?(frame: NSRect, isPreview: Bool) {
         super.init(frame: frame, isPreview: isPreview)
 
@@ -77,31 +76,6 @@ class MainSaverView: ScreenSaverView {
         subviews.removeAll()
         addProgressIndicator()
         imageProcessor?.indexImages()
-    }
-    
-    // Show state when current source folder has no images
-    func renderEmptyState(withError error: Error? = nil) {
-        indicator.isHidden = true
-        let label = NSTextField(labelWithString: "No pictures found. Set location in preferences.")
-        label.font = NSFont(name: "Helvetica Neue Thin", size: 24.0)
-        label.textColor = .white
-        label.alignment = .center
-        label.stringValue = error?.localizedDescription ?? "No pictures found. Set location in preferences."
-        addSubview(label)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate(
-            [NSLayoutConstraint(item: label, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0),
-             NSLayoutConstraint(item: label, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0)])
-    }
-
-    // Show the main state when images are indexed and ready
-    func renderColorGrid(_ colorToThumbnailMap: [NSColor: URL], _ mainImageURLs: [URL]? = nil) {
-        self.colorToThumbnailMap = colorToThumbnailMap
-        self.mainImageURLs = mainImageURLs ?? self.mainImageURLs
-        indicator.isHidden = true
-
-        setupMainImageView()
-        drawImagePixels()
     }
 
     // Draw all of the mini blocks for the original image
@@ -215,17 +189,43 @@ class MainSaverView: ScreenSaverView {
             self.mainImageView.layer?.add(outAnimation, forKey: nil)
             Timer.scheduledTimer(withTimeInterval: animationDuration + 5, repeats: false) { _ in
                 self.subviews.removeAll()
-                self.renderColorGrid(self.colorToThumbnailMap)
+                self.renderMainGrid(self.colorToThumbnailMap)
             }
         }
     }
 
+}
+
+extension MainSaverView: ImageProcessorDelegate {
+    // Show state when current source folder has no images
+    func renderEmptyState(withError error: Error? = nil) {
+        indicator.isHidden = true
+        let label = NSTextField(labelWithString: "No pictures found. Set location in preferences.")
+        label.font = NSFont(name: "Helvetica Neue Thin", size: 24.0)
+        label.textColor = .white
+        label.alignment = .center
+        label.stringValue = error?.localizedDescription ?? "No pictures found. Set location in preferences."
+        addSubview(label)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate(
+            [NSLayoutConstraint(item: label, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0),
+             NSLayoutConstraint(item: label, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0)])
+    }
+
+    // Show the main state when images are indexed and ready
+    func renderMainGrid(_ colorToThumbnailMap: [NSColor: URL], _ mainImageURLs: [URL]? = nil) {
+        self.colorToThumbnailMap = colorToThumbnailMap
+        self.mainImageURLs = mainImageURLs ?? self.mainImageURLs
+        indicator.isHidden = true
+
+        setupMainImageView()
+        drawImagePixels()
+    }
+    
     func updateIndexingProgress(_ progress: Float) {
         DispatchQueue.main.async { [weak self] in
             self?.indicator.isHidden = false
             self?.indicator.doubleValue = Double(progress)
         }
     }
-
 }
-

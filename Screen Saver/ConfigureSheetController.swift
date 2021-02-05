@@ -1,6 +1,6 @@
 //
 //  ConfigureSheetController.swift
-//  Screen Saver
+//  Mosaic Saver
 //
 //  Created by Paul Mercurio on 1/21/21.
 //  Copyright © 2021 Paul Mercurio. All rights reserved.

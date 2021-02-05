@@ -1,10 +1,3 @@
-//
-//  ColorExtensions.swift
-//  Screen Saver
-//
-//  Created by Paul Mercurio on 12/13/20.
-//  Copyright © 2020 Paul Mercurio. All rights reserved.
-//
 
 import AppKit
 
