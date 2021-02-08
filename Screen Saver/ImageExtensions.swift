@@ -30,8 +30,24 @@ extension NSImage {
 
         return imageWithNewSize
     }
+    
+    var pixelData: UnsafePointer<UInt8> {
+        var imageRect = CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height)
+        let cgImage = self.cgImage(forProposedRect: &imageRect, context: nil, hints: nil)
+        let pixelData = cgImage?.dataProvider?.data
+        let data: UnsafePointer<UInt8> = CFDataGetBytePtr(pixelData)
+        return data
+    }
+    
+    func colorForPixel(x: Int, y: Int, pixelData: UnsafePointer<UInt8>) -> NSColor? {
+        guard x >= 0, x < Int(self.size.width), y >= 0, y < Int(self.size.height) else { return nil }
+        let pixelInfo: Int = (Int(self.size.width) * y + x) * 4
+        let r = CGFloat(pixelData[pixelInfo]) / CGFloat(255.0)
+        let g = CGFloat(pixelData[pixelInfo+1]) / CGFloat(255.0)
+        let b = CGFloat(pixelData[pixelInfo+2]) / CGFloat(255.0)
+        return NSColor(red: r, green: g, blue: b, alpha: 1)
+    }
 
-    // TODO: OPTIMIZE THIS to not allocate memory every time
     subscript (x: Int, y: Int) -> NSColor? {
         guard x >= 0, x < Int(self.size.width), y >= 0, y < Int(self.size.height) else { return nil }
         var imageRect = CGRect(x: 0, y: 0, width: self.size.width, height: self.size.height)

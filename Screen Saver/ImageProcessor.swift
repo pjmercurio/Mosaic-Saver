@@ -10,7 +10,7 @@ import Foundation
 import AppKit
 import ImageIO
 
-protocol ImageProcessorDelegate: class {
+protocol ImageProcessorDelegate: AnyObject {
     func renderMainGrid(_ colorToThumbnailMap: [NSColor: URL], _ mainImageURLs: [URL]?)
     func renderEmptyState(withError error: Error?)
     func updateIndexingProgress(_ progress: Float)

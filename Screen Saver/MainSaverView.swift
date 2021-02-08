@@ -81,6 +81,7 @@ class MainSaverView: ScreenSaverView {
     // Draw all of the mini blocks for the original image
     func drawImagePixels() {
         guard let mainImage = mainImageView.image else { return }
+        let pixelData = mainImage.pixelData
         let colorValues: [NSColor] = Array(colorToThumbnailMap.keys)
         let mainImageRect = mainImageView.imageRect
         let buildStyle = defaultsManager.buildStyle
@@ -90,12 +91,13 @@ class MainSaverView: ScreenSaverView {
         let numVerticalBlocks = Int(mainImageRect.height / CGFloat(blockHeight))
         let horizontalRatio = mainImage.size.width / mainImageRect.width
         let verticalRatio = mainImage.size.height / mainImageRect.height
-        
+
         var blocks: [NSView] = []
         func innerLoop(_ x: Int, _ y: Int) {
             let midpointX = (CGFloat(x * blockWidth) * horizontalRatio) + CGFloat(blockWidth / 2)
             let midpointY = (CGFloat(y * blockHeight) * verticalRatio) + CGFloat(blockHeight / 2)
-            guard let blockColor = mainImage[Int(midpointX), Int(midpointY)] else { return }
+//            guard let blockColor = mainImage[Int(midpointX), Int(midpointY)] else { return }
+            guard let blockColor = mainImage.colorForPixel(x: Int(midpointX), y: Int(midpointY), pixelData: pixelData) else { return }
             let nearestColor = colorValues.reduce(colorValues.first!, { curr, next in
                 if next.difference(from: blockColor) >= curr.difference(from: blockColor) { return curr }
                 return next
@@ -127,14 +129,14 @@ class MainSaverView: ScreenSaverView {
                 for x in xArray { innerLoop(x, y) }
             }
         default:
-            var wholeArray: [(Int, Int)] = []
+            var shuffledPoints: [(Int, Int)] = []
             for x in xArray {
                 for y in yArray {
-                    wholeArray.append((x, y))
+                    shuffledPoints.append((x, y))
                 }
             }
-            wholeArray = wholeArray.shuffled()
-            for point in wholeArray { innerLoop(point.0, point.1) }
+            shuffledPoints = shuffledPoints.shuffled()
+            for point in shuffledPoints { innerLoop(point.0, point.1) }
         }
         addBlockAtIndex(0, from: blocks)
     }
