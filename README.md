@@ -2,7 +2,9 @@
 macOS Photo Mosaic Screensaver
 
 Settings:
-<img width="470" alt="Screen Shot 2022-11-28 at 8 26 51 PM" src="https://user-images.githubusercontent.com/6599072/204415791-1b1565e8-3e00-4fb3-acab-7f6f5b3ce8b2.png">
+
+<img width="250" alt="Screen Shot 2022-11-28 at 8 26 51 PM" src="https://user-images.githubusercontent.com/6599072/204415853-9d6ea44f-0817-4624-87c3-8cfd0dc01709.png">
+
 
 
 Demo: https://vimeo.com/776013677
